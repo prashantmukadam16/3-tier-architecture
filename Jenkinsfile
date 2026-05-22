@@ -14,68 +14,16 @@ pipeline {
             }
         }
 
-        stage('Terraform Init') {
+        stage('Terraform Destroy') {
             steps {
                 withCredentials([
                     string(credentialsId: 'aws-access-key-id', variable: 'AWS_ACCESS_KEY_ID'),
                     string(credentialsId: 'aws-secret-access-key', variable: 'AWS_SECRET_ACCESS_KEY')
                 ]) {
-                    sh 'terraform init'
+                    sh 'terraform destroy'
                 }
             }
         }
-
-        stage('Terraform Format Check') {
-            steps {
-                sh 'terraform fmt -check'
-            }
-        }
-
-        stage('Terraform Validate') {
-            steps {
-                withCredentials([
-                    string(credentialsId: 'aws-access-key-id', variable: 'AWS_ACCESS_KEY_ID'),
-                    string(credentialsId: 'aws-secret-access-key', variable: 'AWS_SECRET_ACCESS_KEY')
-                ]) {
-                    sh 'terraform validate'
-                }
-            }
-        }
-
-        stage('Terraform Plan') {
-            steps {
-                withCredentials([
-                    string(credentialsId: 'aws-access-key-id', variable: 'AWS_ACCESS_KEY_ID'),
-                    string(credentialsId: 'aws-secret-access-key', variable: 'AWS_SECRET_ACCESS_KEY')
-                ]) {
-                    sh 'terraform plan -out=tfplan'
-                }
-            }
-        }
-
-        stage('Archive Terraform Plan') {
-            steps {
-                archiveArtifacts artifacts: 'tfplan', fingerprint: true
-            }
-        }
-
-        stage('Manual Approval') {
-            steps {
-                input message: 'Approve Terraform Apply?', ok: 'Deploy'
-            }
-        }
-
-        stage('Terraform Apply') {
-            steps {
-                withCredentials([
-                    string(credentialsId: 'aws-access-key-id', variable: 'AWS_ACCESS_KEY_ID'),
-                    string(credentialsId: 'aws-secret-access-key', variable: 'AWS_SECRET_ACCESS_KEY')
-                ]) {
-                    sh 'terraform apply tfplan'
-                }
-            }
-        }
-    }
 
     post {
 
