@@ -16,7 +16,12 @@ pipeline {
 
         stage('Terraform Init') {
             steps {
-                sh 'terraform init'
+                withCredentials([
+                    string(credentialsId: 'aws-access-key-id', variable: 'AWS_ACCESS_KEY_ID'),
+                    string(credentialsId: 'aws-secret-access-key', variable: 'AWS_SECRET_ACCESS_KEY')
+                ]) {
+                    sh 'terraform init'
+                }
             }
         }
 
@@ -28,13 +33,23 @@ pipeline {
 
         stage('Terraform Validate') {
             steps {
-                sh 'terraform validate'
+                withCredentials([
+                    string(credentialsId: 'aws-access-key-id', variable: 'AWS_ACCESS_KEY_ID'),
+                    string(credentialsId: 'aws-secret-access-key', variable: 'AWS_SECRET_ACCESS_KEY')
+                ]) {
+                    sh 'terraform validate'
+                }
             }
         }
 
         stage('Terraform Plan') {
             steps {
-                sh 'terraform plan -out=tfplan'
+                withCredentials([
+                    string(credentialsId: 'aws-access-key-id', variable: 'AWS_ACCESS_KEY_ID'),
+                    string(credentialsId: 'aws-secret-access-key', variable: 'AWS_SECRET_ACCESS_KEY')
+                ]) {
+                    sh 'terraform plan -out=tfplan'
+                }
             }
         }
 
@@ -52,7 +67,12 @@ pipeline {
 
         stage('Terraform Apply') {
             steps {
-                sh 'terraform apply tfplan'
+                withCredentials([
+                    string(credentialsId: 'aws-access-key-id', variable: 'AWS_ACCESS_KEY_ID'),
+                    string(credentialsId: 'aws-secret-access-key', variable: 'AWS_SECRET_ACCESS_KEY')
+                ]) {
+                    sh 'terraform apply tfplan'
+                }
             }
         }
     }
