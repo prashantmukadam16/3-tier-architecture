@@ -488,22 +488,26 @@ pipeline {
     agent any
 
     environment {
-        AWS_ACCESS_KEY_ID = credentials('aws-access-key-id')
-        AWS_SECRET_ACCESS_KEY = credentials('aws-secret-access-key')
-        AWS_DEFAULT_REGION = 'us-east-1'
+        AWS_DEFAULT_REGION = 'us-west-2'
     }
 
     stages {
 
         stage('Checkout Code') {
             steps {
-                git branch: 'main', url: 'https://github.com/your-repo.git'
+                git branch: 'main',
+                url: 'https://github.com/<your repo>/3-tier-architecture.git'
             }
         }
 
         stage('Terraform Init') {
             steps {
-                sh 'terraform init'
+                withCredentials([
+                    string(credentialsId: 'aws-access-key-id', variable: 'AWS_ACCESS_KEY_ID'),
+                    string(credentialsId: 'aws-secret-access-key', variable: 'AWS_SECRET_ACCESS_KEY')
+                ]) {
+                    sh 'terraform init'
+                }
             }
         }
 
@@ -515,17 +519,27 @@ pipeline {
 
         stage('Terraform Validate') {
             steps {
-                sh 'terraform validate'
+                withCredentials([
+                    string(credentialsId: 'aws-access-key-id', variable: 'AWS_ACCESS_KEY_ID'),
+                    string(credentialsId: 'aws-secret-access-key', variable: 'AWS_SECRET_ACCESS_KEY')
+                ]) {
+                    sh 'terraform validate'
+                }
             }
         }
 
         stage('Terraform Plan') {
             steps {
-                sh 'terraform plan -out=tfplan'
+                withCredentials([
+                    string(credentialsId: 'aws-access-key-id', variable: 'AWS_ACCESS_KEY_ID'),
+                    string(credentialsId: 'aws-secret-access-key', variable: 'AWS_SECRET_ACCESS_KEY')
+                ]) {
+                    sh 'terraform plan -out=tfplan'
+                }
             }
         }
 
-        stage('Archive Plan Artifact') {
+        stage('Archive Terraform Plan') {
             steps {
                 archiveArtifacts artifacts: 'tfplan', fingerprint: true
             }
@@ -533,24 +547,30 @@ pipeline {
 
         stage('Manual Approval') {
             steps {
-                input message: 'Approve Terraform Apply?'
+                input message: 'Approve Terraform Apply?', ok: 'Deploy'
             }
         }
 
         stage('Terraform Apply') {
             steps {
-                sh 'terraform apply -auto-approve tfplan'
+                withCredentials([
+                    string(credentialsId: 'aws-access-key-id', variable: 'AWS_ACCESS_KEY_ID'),
+                    string(credentialsId: 'aws-secret-access-key', variable: 'AWS_SECRET_ACCESS_KEY')
+                ]) {
+                    sh 'terraform apply tfplan'
+                }
             }
         }
     }
 
     post {
+
         success {
-            echo 'Infrastructure deployed successfully!'
+            echo 'Terraform Infrastructure deployed successfully!'
         }
 
         failure {
-            echo 'Deployment failed!'
+            echo 'Terraform deployment failed!'
         }
     }
 }
