@@ -2,14 +2,12 @@ pipeline {
     agent any
 
     environment {
-        AWS_ACCESS_KEY_ID     = 'AKIASAKCHINAQJGF54PK'
-        AWS_SECRET_ACCESS_KEY = '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'
-        AWS_DEFAULT_REGION    = 'us-west-2'
+        AWS_DEFAULT_REGION = 'us-west-2'
     }
 
     stages {
 
-        stage('Checkout Code') {
+        stage('Checkout') {
             steps {
                 git branch: 'main',
                 url: 'https://github.com/prashantmukadam16/3-tier-architecture.git'
@@ -18,7 +16,12 @@ pipeline {
 
         stage('Terraform Init') {
             steps {
-                sh 'terraform init'
+                withCredentials([
+                    string(credentialsId: 'aws-access-key-id', variable: 'AWS_ACCESS_KEY_ID'),
+                    string(credentialsId: 'aws-secret-access-key', variable: 'AWS_SECRET_ACCESS_KEY')
+                ]) {
+                    sh 'terraform init'
+                }
             }
         }
 
@@ -30,13 +33,23 @@ pipeline {
 
         stage('Terraform Plan') {
             steps {
-                sh 'terraform plan'
+                withCredentials([
+                    string(credentialsId: 'aws-access-key-id', variable: 'AWS_ACCESS_KEY_ID'),
+                    string(credentialsId: 'aws-secret-access-key', variable: 'AWS_SECRET_ACCESS_KEY')
+                ]) {
+                    sh 'terraform plan'
+                }
             }
         }
 
         stage('Terraform Apply') {
             steps {
-                sh 'terraform apply -auto-approve'
+                withCredentials([
+                    string(credentialsId: 'aws-access-key-id', variable: 'AWS_ACCESS_KEY_ID'),
+                    string(credentialsId: 'aws-secret-access-key', variable: 'AWS_SECRET_ACCESS_KEY')
+                ]) {
+                    sh 'terraform apply -auto-approve'
+                }
             }
         }
     }
