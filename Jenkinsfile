@@ -24,15 +24,3 @@ pipeline {
                 }
             }
         }
-
-    post {
-
-        success {
-            echo 'Terraform Infrastructure deployed successfully!'
-        }
-
-        failure {
-            echo 'Terraform deployment failed!'
-        }
-    }
-}
