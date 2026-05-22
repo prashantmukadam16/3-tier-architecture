@@ -740,6 +740,39 @@ Add the following screenshots for better GitHub presentation:
 * GitHub Repository
 * AWS Infrastructure Diagram
 
+# 📷 Push the code from JumpBox to GitHub
+<img width="1362" height="393" alt="push the code local to GitHub1" src="https://github.com/user-attachments/assets/44795bff-0063-4fdb-938e-85c39dd5c878" />
+
+# 📷 Jenkinsfile create on GitHub
+<img width="1344" height="709" alt="Jenkinsfile script" src="https://github.com/user-attachments/assets/f748e129-5522-4e2a-9f39-d47cc75ef260" />
+
+# 📷 Jenkins Pipeline Configuration
+<img width="1366" height="637" alt="AWS pipeline configuration" src="https://github.com/user-attachments/assets/4390c716-c685-4e4d-8e54-e6c763519dd3" />
+
+<img width="1362" height="637" alt="repo path and branch" src="https://github.com/user-attachments/assets/d47d84d2-fe7c-4a70-80ca-b23f0232e6c5" />
+
+# 📷 Jenkins Build Run
+<img width="1351" height="678" alt="Run AWS Infra Pipeline using Jemkins" src="https://github.com/user-attachments/assets/4462a803-5788-4db8-a3c7-cc92c664e992" />
+
+<img width="1366" height="691" alt="Pipeline validate terraform and terraform plan" src="https://github.com/user-attachments/assets/4748dcc6-46b5-4d05-85a2-208f523b42de" />
+
+<img width="1366" height="693" alt="AWS 40 resources add in plan" src="https://github.com/user-attachments/assets/f1830964-0f52-436a-9b86-4d12f3329578" />
+
+# 📷 Jenkins Build Run Manual Approval
+<img width="1365" height="643" alt="Approved the manual stage" src="https://github.com/user-attachments/assets/31fc14de-0bb4-43f7-8a03-acf1482906df" />
+
+<img width="1366" height="600" alt="AWS Infra terraform code successfully deploy" src="https://github.com/user-attachments/assets/0f7e535c-85eb-4456-a97c-ecaabc0e6d9c" />
+
+<img width="1365" height="622" alt="Jenkins CICD stage view" src="https://github.com/user-attachments/assets/39a3f08e-0663-4d46-973a-12c31eccd51f" />
+
+# 📷 Jenkins Build Artifact
+<img width="1365" height="634" alt="Jenkins build artifact" src="https://github.com/user-attachments/assets/f313a786-25df-4a35-b102-27ad15aaf29f" />
+
+# 📷 AWS 3-Tier Application Infrastructure Deployed
+<img width="1366" height="606" alt="AWS VPC" src="https://github.com/user-attachments/assets/88066303-a5fb-4fdd-86e3-49cb64079dde" />
+
+<img width="1365" height="604" alt="LB 3 tier architecture" src="https://github.com/user-attachments/assets/59ff68dd-f681-47ea-bcc3-80279a0cfa0d" />
+
 ---
 
 # 🧠 Future Enhancements
@@ -784,8 +817,12 @@ This project significantly improved understanding of:
 
 ## Prashant Mukadam
 
-### DevOps | Cloud | Terraform | AWS | Jenkins | CI/CD
+### DevOps Engineer | Cloud Enthusiast | AWS | Terraform | Jenkins | CI/CD | Infrastructure Automation
 
 ---
 
-# ⭐ If you found this project useful, don't forget to Star the Repository!
+# ⭐ Support
+If you found this project useful:
+    * Star the repository
+    * Fork the repository
+    * Share with the DevOps community
