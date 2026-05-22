@@ -25,6 +25,12 @@ pipeline {
             }
         }
 
+        stage('Terraform Format Check') {
+            steps {
+                sh 'terraform fmt -check'
+            }
+        }
+
         stage('Terraform Validate') {
             steps {
                 withCredentials([
@@ -36,36 +42,36 @@ pipeline {
             }
         }
 
-        stage('Terraform Destroy Plan') {
+        stage('Terraform Plan') {
             steps {
                 withCredentials([
                     string(credentialsId: 'aws-access-key-id', variable: 'AWS_ACCESS_KEY_ID'),
                     string(credentialsId: 'aws-secret-access-key', variable: 'AWS_SECRET_ACCESS_KEY')
                 ]) {
-                    sh 'terraform plan -destroy -out=destroy.tfplan'
+                    sh 'terraform plan -out=tfplan'
                 }
             }
         }
 
-        stage('Archive Destroy Plan') {
+        stage('Archive Terraform Plan') {
             steps {
-                archiveArtifacts artifacts: 'destroy.tfplan', fingerprint: true
+                archiveArtifacts artifacts: 'tfplan', fingerprint: true
             }
         }
 
         stage('Manual Approval') {
             steps {
-                input message: 'Approve Terraform Destroy?', ok: 'Destroy'
+                input message: 'Approve Terraform Apply?', ok: 'Deploy'
             }
         }
 
-        stage('Terraform Destroy Apply') {
+        stage('Terraform Apply') {
             steps {
                 withCredentials([
                     string(credentialsId: 'aws-access-key-id', variable: 'AWS_ACCESS_KEY_ID'),
                     string(credentialsId: 'aws-secret-access-key', variable: 'AWS_SECRET_ACCESS_KEY')
                 ]) {
-                    sh 'terraform apply -auto-approve destroy.tfplan'
+                    sh 'terraform apply tfplan'
                 }
             }
         }
@@ -74,15 +80,11 @@ pipeline {
     post {
 
         success {
-            echo 'Terraform Infrastructure destroyed successfully!'
+            echo 'Terraform Infrastructure deployed successfully!'
         }
 
         failure {
-            echo 'Terraform destroy failed!'
-        }
-
-        always {
-            cleanWs()
+            echo 'Terraform deployment failed!'
         }
     }
 }
