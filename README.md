@@ -186,37 +186,17 @@ terraform-3tier-architecture/
 ├── versions.tf
 │
 ├── modules/
-│   ├── vpc/
-│   │   ├── main.tf
-│   │   ├── variables.tf
-│   │   └── outputs.tf
-│   │
-│   ├── security-group/
-│   │   ├── main.tf
-│   │   ├── variables.tf
-│   │   └── outputs.tf
-│   │
-│   ├── ec2/
-│   │   ├── main.tf
-│   │   ├── variables.tf
-│   │   └── outputs.tf
-│   │
-│   ├── alb/
-│   │   ├── main.tf
-│   │   ├── variables.tf
-│   │   └── outputs.tf
-│   │
 │   ├── autoscaling/
 │   │   ├── main.tf
 │   │   ├── variables.tf
 │   │   └── outputs.tf
 │   │
-│   ├── rds/
+│   ├── database/
 │   │   ├── main.tf
 │   │   ├── variables.tf
 │   │   └── outputs.tf
 │   │
-│   └── iam/
+│   ├── networking/
 │       ├── main.tf
 │       ├── variables.tf
 │       └── outputs.tf
